@@ -25,12 +25,12 @@ def createNetwork():
 
 def flappy():
     sess = tf.InteractiveSession()
-    s, readout, h_fc1 = createNetwork()
+    createNetwork() # s, readout, h_fc1 = createNetwork()
 
 
 def main():
     flappy()
 
 
-if name == "__main__":
+if __name__ == "__main__":
     main()
