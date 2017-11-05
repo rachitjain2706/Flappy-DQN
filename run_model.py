@@ -11,10 +11,10 @@ from collections import deque
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
 GAMMA = 0.99 # decay rate of past observations
-OBSERVE = 10000. # timesteps to observe before training
-EXPLORE = 3000000. # frames over which to anneal epsilon
+OBSERVE = 100000 # timesteps to observe before training
+EXPLORE = 2000000 # frames over which to anneal epsilon
 FINAL_EPSILON = 0.0001 # final value of epsilon
-INITIAL_EPSILON = 0.1 # starting value of epsilon
+INITIAL_EPSILON = 0.0001 # starting value of epsilon
 REPLAY_MEMORY = 50000 # number of previous transitions to remember
 BATCH = 32 # size of minibatch
 FRAME_PER_ACTION = 1
@@ -118,7 +118,7 @@ def trainNetwork(s, readout, h_fc1, sess):
     # start training
     epsilon = INITIAL_EPSILON
     t = 0
-    while "flappy bird" != "angry bird":
+    while True:
         # choose an action epsilon greedily
         readout_t = readout.eval(feed_dict={s : [s_t]})[0]
         a_t = np.zeros([ACTIONS])
@@ -188,17 +188,14 @@ def trainNetwork(s, readout, h_fc1, sess):
             saver.save(sess, 'saved_networks/' + GAME + '-dqn', global_step = t)
 
         # print info
-        state = ""
         if t <= OBSERVE:
             state = "observe"
-        elif t > OBSERVE and t <= OBSERVE + EXPLORE:
+        elif OBSERVE < t <= OBSERVE + EXPLORE:
             state = "explore"
         else:
             state = "train"
 
-        print("TIMESTEP", t, "/ STATE", state, \
-            "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
-            "/ Q_MAX %e" % np.max(readout_t))
+        print("TIMESTEP", t, "/ STATE", state, "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, "/ Q_MAX %e" % np.max(readout_t))
 
 
 def playGame():
