@@ -1,10 +1,7 @@
-import numpy as np
-import sys
+
 import random
 import pygame
 from game import flappy_bird_utils
-import pygame.surfarray as surfarray
-from pygame.locals import *
 from itertools import cycle
 
 FPS = 30
@@ -56,6 +53,9 @@ class GameState:
         self.playerAccY    =   1   # players downward accleration
         self.playerFlapAcc =  -9   # players speed on flapping
         self.playerFlapped = False # True when player flaps
+
+    def curr_score(self):
+        return self.score
 
     def frame_step(self, input_actions):
         pygame.event.pump()
