@@ -88,10 +88,6 @@ def trainNetwork(s, readout, h_fc1, sess):
     # store the previous observations in replay memory
     D = deque()
 
-    # printing
-    a_file = open("logs_" + GAME + "/readout.txt", 'w')
-    h_file = open("logs_" + GAME + "/hidden.txt", 'w')
-
     # get the first state by doing nothing and preprocess the image to 80x80x4
     do_nothing = np.zeros(ACTIONS)
     do_nothing[0] = 1
@@ -103,17 +99,6 @@ def trainNetwork(s, readout, h_fc1, sess):
     # saving and loading networks
     saver = tf.train.Saver()
     sess.run(tf.global_variables_initializer())
-    # checkpoint = tf.train.get_checkpoint_state("saved_networks")
-
-    # try:
-    #     if checkpoint and checkpoint.model_checkpoint_path:
-    #         saver.restore(sess, checkpoint.model_checkpoint_path)
-    #         print("Successfully loaded:", checkpoint.model_checkpoint_path)
-    #     else:
-    #         print("Could not find old network weights")
-    # except:
-    #     print("Error loading files. Delete saved network.")
-    #     exit()
 
     # start training
     epsilon = INITIAL_EPSILON
