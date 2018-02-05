@@ -93,6 +93,10 @@ def trainNetwork(s, readout, h_fc1, sess):
         print("Error loading files. Delete saved network.")
         exit()
 
+    writer = tf.summary.FileWriter("./logs/")
+    writer.add_graph(sess.graph)
+    writer.close()
+
     # start running
     t = 0
     while True:
